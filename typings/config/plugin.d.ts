@@ -9,9 +9,12 @@ import 'egg-multipart';
 import 'egg-security';
 import 'egg-logrotator';
 import 'egg-schedule';
+import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
 import 'midway-schedule';
+import 'egg-jwt';
+import 'egg-cors';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -28,5 +31,7 @@ declare module 'egg' {
     jsonp?: EggPluginItem;
     view?: EggPluginItem;
     schedulePlus?: EggPluginItem;
+    jwt?: EggPluginItem;
+    cors?: EggPluginItem;
   }
 }
