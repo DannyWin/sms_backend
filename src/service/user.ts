@@ -2,7 +2,7 @@ import { Provide, Config, Plugin } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository } from 'typeorm';
 import User from '../entity/user';
-import { IUserService, ILoginOptions } from '../iservice/iuser';
+import { IUserService, ILoginOptions } from '../interface/iuser';
 import { md5 } from '../common/crypto';
 
 @Provide()
@@ -18,15 +18,6 @@ export class UserService implements IUserService {
 
     @InjectEntityModel(User)
     userRepository: Repository<User>;
-
-    // async getUser(options: IUserOptions) {
-    //     return {
-    //         uid: options.uid,
-    //         username: 'mockedName',
-    //         phone: '12345678901',
-    //         email: 'xxx.xxx@xxx.com',
-    //     };
-    // }
 
     /**
      * 通过id获取用户
@@ -45,7 +36,7 @@ export class UserService implements IUserService {
      * @returns
      * @memberof UserService
      */
-    async login(options: ILoginOptions) {
+    async login(options: ILoginOptions): Promise<string> {
         const existUser = await this.userRepository.findOne({
             uid: options.uid,
         });

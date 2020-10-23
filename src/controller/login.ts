@@ -1,30 +1,20 @@
-import { Controller, Post, Provide, Inject } from '@midwayjs/decorator';
-import { Context } from 'egg';
-import { IUserService } from '../iservice/iuser';
-import { auth_userNotFound } from '../common/constant';
-
+import { Controller, Post, Provide, Inject, Body, ALL } from '@midwayjs/decorator';
+import { IUserService, ILoginOptions } from '../interface/iuser';
+import { login_success, auth_userNotFound } from '../common/constant';
 @Provide()
 @Controller('/')
 export class LoginController {
     @Inject()
-    ctx: Context;
-
-    @Inject()
     userService: IUserService;
 
     @Post('/login')
-    async login(ctx: Context): Promise<void> {
-        const { uid, pwd } = ctx.request.body;
+    async login(@Body(ALL) body: ILoginOptions) {
+        const { uid, pwd } = body;
         const token = await this.userService.login({ uid, pwd });
         if (token) {
-            ctx.body = { msg: 'Login successfully', data: { token } };
+            return { ...login_success, data: { token } };
         } else {
-            ctx.status = 400;
-            ctx.body = {
-                code: auth_userNotFound.code,
-                msg: auth_userNotFound.msg,
-            };
-            //ctx.throw(400,'Uid or Pwd is wrong')
+            throw auth_userNotFound;
         }
     }
 }

@@ -9,7 +9,7 @@ export default (appInfo: EggAppInfo) => {
     config.keys = appInfo.name + '_1603196435910_6496';
     config.pwdSecret = 'abcde';
     // add your config here
-    config.middleware = [];
+    config.middleware = ['responseMiddleware'];
     config.orm = {
         type: 'mysql',
         host: 'localhost',
