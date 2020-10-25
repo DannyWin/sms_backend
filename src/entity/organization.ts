@@ -22,13 +22,13 @@ export default class Organization extends Base {
     @Column({ nullable: true })
     employeeCount: number;
 
-    @OneToOne(type => Address, address => address.organization)
+    @OneToOne(type => Address, address => address.organization, { cascade: true })
     @JoinColumn()
     address: Address;
 
-    @OneToMany(type => User, user => user.organization)
+    @OneToMany(type => User, user => user.organization, { cascade: true })
     users: User[];
 
-    @OneToMany(type => Role, role => role.organization)
+    @OneToMany(type => Role, role => role.organization, { cascade: true })
     roles: Role[];
 }

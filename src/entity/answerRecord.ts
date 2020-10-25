@@ -8,14 +8,10 @@ import AnswerDateRange from './answerDateRange';
 
 @EntityModel('answerRecord')
 export default class AnswerRecord extends Base {
-
     @Column({ type: 'text', nullable: true })
     content: string;
 
-    @OneToOne(
-        type => AnswerDateRange,
-        answerDateRange => answerDateRange.answerRecord
-    )
+    @OneToOne(type => AnswerDateRange, answerDateRange => answerDateRange.answerRecord, { cascade: true })
     @JoinColumn()
     answerDateRange: AnswerDateRange;
 

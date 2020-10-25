@@ -8,8 +8,9 @@ export class ResponseMiddleware implements IWebMiddleware {
         return async (ctx: Context, next: IMidwayWebNext) => {
             try {
                 await next();
-                ctx.status = ctx.body.status;
+                ctx.status = ctx.body.status || 200;
             } catch (e) {
+                console.log(e);
                 ctx.status = e.status || 400;
                 //ctx.response.type = 'application/json';
                 ctx.body = {

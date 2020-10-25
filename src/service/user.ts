@@ -1,20 +1,17 @@
-import { Provide, Config, Plugin } from '@midwayjs/decorator';
+import { Provide, Inject } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository } from 'typeorm';
 import User from '../entity/user';
 import { IUserService, ILoginOptions } from '../interface/iuser';
-import { md5 } from '../common/crypto';
+import { ICrypto, IToken } from '../utility/interface';
 
 @Provide()
 export class UserService implements IUserService {
-    @Plugin('jwt')
-    jwt;
+    @Inject()
+    crypto: ICrypto;
 
-    @Config('jwt')
-    jwtConfig;
-
-    @Config('pwdSecret')
-    pwdSecret;
+    @Inject()
+    token: IToken;
 
     @InjectEntityModel(User)
     userRepository: Repository<User>;
@@ -28,6 +25,16 @@ export class UserService implements IUserService {
      */
     async getUserById(id: number): Promise<User> {
         return await this.userRepository.findOne({ id: id });
+    }
+    /**
+     * 通过iid获取用户
+     *
+     * @param {number} uid
+     * @returns
+     * @memberof UserService
+     */
+    async getUserByUid(uid: string): Promise<User> {
+        return await this.userRepository.findOne({ uid: uid });
     }
     /**
      * 登录
@@ -45,11 +52,10 @@ export class UserService implements IUserService {
         if (!existUser) {
             return null;
         }
-
         let token = '';
-        console.log(md5(options.pwd, this.pwdSecret));
-        if (existUser.pwd === md5(options.pwd, this.pwdSecret)) {
-            token = this.jwt.sign({ uid: existUser.uid }, this.jwtConfig.secret, { expiresIn: this.jwtConfig.sign.expiresIn });
+        //console.log(this.crypto.md5(options.pwd));
+        if (existUser.pwd === this.crypto.md5(options.pwd)) {
+            token = this.token.generateToken(existUser.uid);
         }
         // 验证通过
         return token;

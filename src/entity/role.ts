@@ -14,13 +14,13 @@ export default class Role extends Base {
     @Column({ type: 'text', nullable: true })
     description: string;
 
-    @OneToMany(type => UserRole, userRole => userRole.role)
+    @OneToMany(type => UserRole, userRole => userRole.role, { cascade: true })
     userRoles: UserRole[];
 
-    @OneToMany(type => RoleModule, roleModule => roleModule.role)
+    @OneToMany(type => RoleModule, roleModule => roleModule.role, { cascade: true })
     roleModules: RoleModule[];
 
-    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.role)
+    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.role, { cascade: true })
     roleSurveys: RoleSurvey[];
 
     @ManyToOne(type => Organization, organization => organization.roles)

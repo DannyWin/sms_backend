@@ -8,6 +8,6 @@ export default class Option extends Base {
     @Column({ type: 'text', nullable: true })
     content: string;
 
-    @OneToMany(type => QuestionOption, questionOption => questionOption.option)
+    @OneToMany(type => QuestionOption, questionOption => questionOption.option, { cascade: true })
     questionOptions: QuestionOption[];
 }

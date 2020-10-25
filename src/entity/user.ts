@@ -26,13 +26,13 @@ export default class User extends Base {
     @Column({ nullable: true })
     regDate: Date;
 
-    @OneToMany(type => Message, message => message.user)
+    @OneToMany(type => Message, message => message.user, { cascade: true })
     messages: Message[];
 
-    @OneToMany(type => UserRole, userRole => userRole.user)
+    @OneToMany(type => UserRole, userRole => userRole.user, { cascade: true })
     userRoles: UserRole[];
 
-    @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.user)
+    @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.user, { cascade: true })
     surveyRecords: SurveyRecord[];
 
     @ManyToOne(type => Organization, organization => organization.users)

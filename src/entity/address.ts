@@ -9,7 +9,7 @@ export default class Address extends Base {
     @Column({ type: 'text', nullable: true })
     address: string;
 
-    @OneToOne(type => City)
+    @OneToOne(type => City, { cascade: true })
     @JoinColumn()
     city: City;
 

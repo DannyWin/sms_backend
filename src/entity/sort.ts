@@ -8,6 +8,6 @@ export default class Sort extends Base {
     @Column({ length: 30, nullable: true })
     name: string;
 
-    @OneToMany(type => Question, question => question.category)
+    @OneToMany(type => Question, question => question.category, { cascade: true })
     questions: Question[];
 }

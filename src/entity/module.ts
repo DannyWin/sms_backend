@@ -20,6 +20,6 @@ export default class Module extends Base {
     @Column({ type: 'text', nullable: true })
     api: string;
 
-    @OneToMany(type => RoleModule, roleModule => roleModule.module)
+    @OneToMany(type => RoleModule, roleModule => roleModule.module, { cascade: true })
     roleModules: RoleModule[];
 }

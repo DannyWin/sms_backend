@@ -10,6 +10,7 @@ export class LoginController {
     @Post('/login')
     async login(@Body(ALL) body: ILoginOptions) {
         const { uid, pwd } = body;
+        console.log(body);
         const token = await this.userService.login({ uid, pwd });
         if (token) {
             return { ...login_success, data: { token } };

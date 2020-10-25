@@ -37,4 +37,5 @@ export interface IUserService {
     login(loginOptions: ILoginOptions): Promise<string>;
     //getUser(options: IUserOptions): Promise<IUserResult>;
     getUserById(id: number): Promise<User>;
+    getUserByUid(uid: string): Promise<User>;
 }

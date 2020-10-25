@@ -10,7 +10,7 @@ export default class SurveyRecord extends Base {
     @Column({ nullable: true })
     surveyDate: Date;
 
-    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.surveyRecord)
+    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.surveyRecord, { cascade: true })
     answerRecords: AnswerRecord[];
 
     @ManyToOne(type => Survey, survey => survey.surveyRecords)

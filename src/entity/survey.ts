@@ -25,12 +25,12 @@ export default class Survey extends Base {
     @Column({ nullable: true })
     finish: boolean;
 
-    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.survey)
+    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.survey, { cascade: true })
     roleSurveys: RoleSurvey[];
 
-    @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.survey)
+    @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.survey, { cascade: true })
     surveyRecords: SurveyRecord[];
 
-    @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.survey)
+    @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.survey, { cascade: true })
     surveyQuestions: SurveyQuestion[];
 }

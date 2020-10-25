@@ -11,9 +11,6 @@ export default class AnswerDateRange extends Base {
     @Column({ nullable: true })
     endDate: Date;
 
-    @OneToOne(
-        type => AnswerRecord,
-        answerRecord => answerRecord.answerDateRange
-    )
+    @OneToOne(type => AnswerRecord, answerRecord => answerRecord.answerDateRange)
     answerRecord: AnswerRecord;
 }

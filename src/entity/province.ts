@@ -12,6 +12,6 @@ export default class Province extends Base {
     @ManyToOne(type => Country, country => country.provinces)
     country: Country;
 
-    @OneToMany(type => City, city => city.province)
+    @OneToMany(type => City, city => city.province, { cascade: true })
     cities: City[];
 }

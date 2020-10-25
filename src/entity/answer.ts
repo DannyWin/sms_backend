@@ -12,6 +12,6 @@ export default class Answer extends Base {
     @OneToOne(type => Question, question => question.answer)
     question: Question;
 
-    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.answer)
+    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.answer, { cascade: true })
     answerRecords: AnswerRecord[];
 }

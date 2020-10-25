@@ -16,6 +16,10 @@ export class SurveyService implements ISurveyService {
      * @return Survey[]
      */
     async getSurveysByRoleId(roleId: number): Promise<Survey[]> {
-        return await this.surveyRepository.find({ relations: ['RoleSurvey'], where: { roleId: roleId } });
+        return await this.surveyRepository
+            .createQueryBuilder('survey') //.find({ relations: ['RoleSurvey'], where: { roleId: roleId } });
+            .innerJoinAndSelect('survey.roleSurveys', 'roleSurvey')
+            .where(`roleSurvey.roleId = ${roleId}`)
+            .getMany();
     }
 }

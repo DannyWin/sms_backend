@@ -17,6 +17,6 @@ export default class Country extends Base {
     @Column({ length: 30, nullable: true })
     continent: string;
 
-    @OneToMany(type => Province, province => province.country)
+    @OneToMany(type => Province, province => province.country, { cascade: true })
     provinces: Province[];
 }

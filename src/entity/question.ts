@@ -19,22 +19,16 @@ export default class Question extends Base {
     @ManyToOne(type => Sort, sort => sort.questions)
     sort: Sort;
 
-    @OneToOne(type => Answer, answer => answer.question)
+    @OneToOne(type => Answer, answer => answer.question, { cascade: true })
     @JoinColumn()
     answer: Answer;
 
-    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.question)
+    @OneToMany(type => AnswerRecord, answerRecord => answerRecord.question, { cascade: true })
     answerRecords: AnswerRecord[];
 
-    @OneToMany(
-        type => SurveyQuestion,
-        surveyQuestion => surveyQuestion.question
-    )
+    @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.question, { cascade: true })
     surveyQuestions: SurveyQuestion[];
 
-    @OneToMany(
-        type => QuestionOption,
-        questionOption => questionOption.question
-    )
+    @OneToMany(type => QuestionOption, questionOption => questionOption.question, { cascade: true })
     questionOptions: QuestionOption[];
 }

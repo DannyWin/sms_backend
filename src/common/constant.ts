@@ -20,14 +20,19 @@ export const delete_resourceDeleted = (resource: string) => {
     const Resource = resource.substring(0, 1).toUpperCase() + resource.substring(1);
     return { status: 204, code: `delete_${resource}Deleted`, msg: `${Resource} is deleted` };
 };
-export const auth_badPassword = {
+export const auth_passwordError = {
     code: 'auth_badPassword',
     msg: 'Uid or Pwd is wrong',
 };
-export const auth_badToken = {
+export const auth_tokenError = {
     status: 401,
-    code: 'auth_badToken',
+    code: 'auth_tokenError',
     msg: 'Token is wrong or expired',
+};
+export const auth_tokenMissing = {
+    status: 401,
+    code: 'auth_tokenMissing',
+    msg: 'Token is missing',
 };
 export const auth_requestForbidden = {
     status: 403,
