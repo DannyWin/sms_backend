@@ -8,6 +8,11 @@ export const login_success = {
     code: 'login_success',
     msg: 'Login successfully',
 };
+export const request_success = {
+    status: 200,
+    code: 'request_success',
+    msg: 'Request successfully',
+};
 export const query_resourceNotFound = (resource: string) => {
     const Resource = resource.substring(0, 1).toUpperCase() + resource.substring(1);
     return { status: 404, code: `query_${resource}NotFound`, msg: `${Resource} is not found` };

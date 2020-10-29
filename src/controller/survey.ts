@@ -3,6 +3,7 @@ import { ISurveyService } from '../interface/isurvey';
 import { IRoleService } from '../interface/irole';
 import { IUserService } from '../interface/iuser';
 import { IToken } from '../utility/interface';
+import { request_success } from '../common/constant';
 
 @Provide()
 @Controller('/')
@@ -25,6 +26,6 @@ export class SurveyController {
         for (const role of roles) {
             survey.push(await this.surveyService.getSurveysByRoleId(role.id));
         }
-        return survey;
+        return { ...request_success, data: { survey } };
     }
 }
