@@ -22,10 +22,10 @@ export class SurveyController {
         const uid = this.token.decodeToken.uid;
         const user = await this.userService.getUserByUid(uid);
         const roles = await this.roleService.getRolesByUserId(user.id);
-        const survey = [];
+        const surveys = [];
         for (const role of roles) {
-            survey.push(await this.surveyService.getSurveysByRoleId(role.id));
+            surveys.push(...(await this.surveyService.getSurveysByRoleId(role.id)));
         }
-        return { ...request_success, data: { survey } };
+        return { ...request_success, data: { surveys } };
     }
 }

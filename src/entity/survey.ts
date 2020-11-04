@@ -4,6 +4,7 @@ import Base from './base/base';
 import RoleSurvey from './roleSurvey';
 import SurveyQuestion from './surveyQuestion';
 import SurveyRecord from './surveyRecord';
+import Question from './question';
 
 @EntityModel()
 export default class Survey extends Base {
@@ -33,4 +34,6 @@ export default class Survey extends Base {
 
     @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.survey, { cascade: true })
     surveyQuestions: SurveyQuestion[];
+
+    questions: Question[];
 }
