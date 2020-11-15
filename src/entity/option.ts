@@ -1,13 +1,13 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, OneToMany } from 'typeorm';
+import { Column, ManyToMany } from 'typeorm';
 import Base from './base/base';
-import QuestionOption from './questionOption';
+import Question from './question';
 
 @EntityModel()
 export default class Option extends Base {
     @Column({ type: 'text', nullable: true })
     content: string;
 
-    @OneToMany(type => QuestionOption, questionOption => questionOption.option, { cascade: true })
-    questionOptions: QuestionOption[];
+    @ManyToMany(() => Question, (question: Question) => question.options)
+    questions: Question[];
 }

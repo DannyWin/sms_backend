@@ -16,6 +16,11 @@ export class RoleService implements IRoleService {
      * @return Role[]
      */
     async getRolesByUserId(userId: number): Promise<Role[]> {
+        // return await this.roleRepository
+        //     .createQueryBuilder('role') //.find({ relations: ['UserRole'], where: { userId: uid } });
+        //     .innerJoinAndSelect('role.userRoles', 'userRole')
+        //     .where(`userRole.userId = ${userId}`)
+        //     .getMany();
         return await this.roleRepository
             .createQueryBuilder('role') //.find({ relations: ['UserRole'], where: { userId: uid } });
             .innerJoinAndSelect('role.userRoles', 'userRole')

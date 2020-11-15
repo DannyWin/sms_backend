@@ -1,20 +1,14 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, ManyToOne } from 'typeorm';
-import Base from './base/base';
-import Survey from './survey';
-import Question from './question';
+import { PrimaryColumn, Column } from 'typeorm';
 
 @EntityModel('surveyQuestion')
-export default class SurveyQuestion extends Base {
-    @Column({ nullable: true })
+export default class SurveyQuestion {
+    @PrimaryColumn()
     surveyId: number;
 
-    @Column({ nullable: true })
+    @PrimaryColumn()
     questionId: number;
 
-    @ManyToOne(type => Survey, survey => survey.surveyQuestions)
-    survey: Survey;
-
-    @ManyToOne(type => Question, question => question.surveyQuestions)
-    question: Question;
+    @Column({ nullable: true })
+    order: number;
 }

@@ -1,9 +1,9 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, OneToMany, ManyToOne } from 'typeorm';
+import { Column, ManyToOne, ManyToMany, JoinTable } from 'typeorm';
 import Base from './base/base';
-import UserRole from './userRole';
-import RoleModule from './roleModule';
-import RoleSurvey from './roleSurvey';
+import User from './user';
+import Module from './module';
+import Survey from './survey';
 import Organization from './organization';
 
 @EntityModel()
@@ -14,14 +14,36 @@ export default class Role extends Base {
     @Column({ type: 'text', nullable: true })
     description: string;
 
-    @OneToMany(type => UserRole, userRole => userRole.role, { cascade: true })
-    userRoles: UserRole[];
+    @ManyToMany(() => User, (user: User) => user.roles)
+    users: User[];
 
-    @OneToMany(type => RoleModule, roleModule => roleModule.role, { cascade: true })
-    roleModules: RoleModule[];
+    @ManyToMany(() => Module, (module: Module) => module.roles)
+    @JoinTable({
+        name: 'roleModule',
+        joinColumn: {
+            name: 'roleId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'moduleId',
+            referencedColumnName: 'id',
+        },
+    })
+    modules: Module[];
 
-    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.role, { cascade: true })
-    roleSurveys: RoleSurvey[];
+    @ManyToMany(() => Survey, (survey: Survey) => survey.roles, { eager: true })
+    @JoinTable({
+        name: 'roleSurvey',
+        joinColumn: {
+            name: 'roleId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'surveyId',
+            referencedColumnName: 'id',
+        },
+    })
+    surveys: Survey[];
 
     @ManyToOne(type => Organization, organization => organization.roles)
     organization: Organization;

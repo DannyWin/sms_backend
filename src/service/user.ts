@@ -34,7 +34,7 @@ export class UserService implements IUserService {
      * @memberof UserService
      */
     async getUserByUid(uid: string): Promise<User> {
-        return await this.userRepository.findOne({ uid: uid });
+        return await this.userRepository.findOne({ relations: ['roles'], where: { uid: uid } });
     }
     /**
      * 登录
@@ -53,7 +53,7 @@ export class UserService implements IUserService {
             return null;
         }
         let token = '';
-        //console.log(this.crypto.md5(options.pwd));
+        console.log(this.crypto.md5(options.pwd));
         if (existUser.pwd === this.crypto.md5(options.pwd)) {
             token = this.token.generateToken(existUser.uid);
         }

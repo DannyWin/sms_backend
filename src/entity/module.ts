@@ -1,7 +1,7 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, OneToMany } from 'typeorm';
+import { Column, ManyToMany } from 'typeorm';
 import Base from './base/base';
-import RoleModule from './roleModule';
+import Role from './role';
 
 @EntityModel()
 export default class Module extends Base {
@@ -20,6 +20,6 @@ export default class Module extends Base {
     @Column({ type: 'text', nullable: true })
     api: string;
 
-    @OneToMany(type => RoleModule, roleModule => roleModule.module, { cascade: true })
-    roleModules: RoleModule[];
+    @ManyToMany(() => Role, (role: Role) => role.modules)
+    roles: Role[];
 }

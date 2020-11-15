@@ -1,10 +1,9 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, OneToMany } from 'typeorm';
+import { Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
 import Base from './base/base';
-import RoleSurvey from './roleSurvey';
-import SurveyQuestion from './surveyQuestion';
 import SurveyRecord from './surveyRecord';
 import Question from './question';
+import Role from './role';
 
 @EntityModel()
 export default class Survey extends Base {
@@ -26,14 +25,23 @@ export default class Survey extends Base {
     @Column({ nullable: true })
     finish: boolean;
 
-    @OneToMany(type => RoleSurvey, roleSurvey => roleSurvey.survey, { cascade: true })
-    roleSurveys: RoleSurvey[];
+    @ManyToMany(() => Role, (role: Role) => role.surveys)
+    roles: Role[];
 
     @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.survey, { cascade: true })
     surveyRecords: SurveyRecord[];
 
-    @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.survey, { cascade: true })
-    surveyQuestions: SurveyQuestion[];
-
+    @ManyToMany(() => Question, (question: Question) => question.surveys)
+    @JoinTable({
+        name: 'surveyQuestion',
+        joinColumn: {
+            name: 'surveyId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'questionId',
+            referencedColumnName: 'id',
+        },
+    })
     questions: Question[];
 }

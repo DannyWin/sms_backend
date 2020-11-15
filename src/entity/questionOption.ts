@@ -1,20 +1,14 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, ManyToOne } from 'typeorm';
-import Base from './base/base';
-import Question from './question';
-import Option from './option';
+import { Column, PrimaryColumn } from 'typeorm';
 
 @EntityModel('questionOption')
-export default class QuestionOption extends Base {
-    @Column({ nullable: true })
+export default class QuestionOption {
+    @PrimaryColumn()
     questionId: number;
 
-    @Column({ nullable: true })
+    @PrimaryColumn()
     optionId: number;
 
-    @ManyToOne(type => Question, question => question.questionOptions)
-    question: Question;
-
-    @ManyToOne(type => Option, option => option.questionOptions)
-    option: Option;
+    @Column({ nullable: true })
+    order: number;
 }

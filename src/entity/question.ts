@@ -1,9 +1,9 @@
 import { EntityModel } from '@midwayjs/orm';
-import { Column, OneToMany, OneToOne, ManyToOne, JoinColumn } from 'typeorm';
+import { Column, OneToMany, OneToOne, ManyToOne, JoinColumn, ManyToMany, JoinTable } from 'typeorm';
 import Base from './base/base';
-import SurveyQuestion from './surveyQuestion';
-import QuestionOption from './questionOption';
+import Survey from './survey';
 import Answer from './answer';
+import Option from './option';
 import Category from './category';
 import Sort from './sort';
 import AnswerRecord from './answerRecord';
@@ -26,9 +26,20 @@ export default class Question extends Base {
     @OneToMany(type => AnswerRecord, answerRecord => answerRecord.question, { cascade: true })
     answerRecords: AnswerRecord[];
 
-    @OneToMany(type => SurveyQuestion, surveyQuestion => surveyQuestion.question, { cascade: true })
-    surveyQuestions: SurveyQuestion[];
+    @ManyToMany(() => Survey, (survey: Survey) => survey.questions)
+    surveys: Survey[];
 
-    @OneToMany(type => QuestionOption, questionOption => questionOption.question, { cascade: true })
-    questionOptions: QuestionOption[];
+    @ManyToMany(() => Option, (option: Option) => option.questions)
+    @JoinTable({
+        name: 'questionOption',
+        joinColumn: {
+            name: 'questionId',
+            referencedColumnName: 'id',
+        },
+        inverseJoinColumn: {
+            name: 'optionId',
+            referencedColumnName: 'id',
+        },
+    })
+    options: Option[];
 }

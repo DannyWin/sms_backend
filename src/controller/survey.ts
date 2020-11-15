@@ -21,10 +21,14 @@ export class SurveyController {
     async getSurvey() {
         const uid = this.token.decodeToken.uid;
         const user = await this.userService.getUserByUid(uid);
-        const roles = await this.roleService.getRolesByUserId(user.id);
+        console.log(user);
+        // const roles = await this.roleService.getRolesByUserId(user.id);
+
+        //console.log(roles);
         const surveys = [];
-        for (const role of roles) {
-            surveys.push(...(await this.surveyService.getSurveysByRoleId(role.id)));
+        for (const role of user.roles) {
+            // surveys.push(...(await this.surveyService.getSurveysByRoleId(role.id)));
+            surveys.push(...role.surveys);
         }
         return { ...request_success, data: { surveys } };
     }
