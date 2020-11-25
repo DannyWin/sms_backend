@@ -26,7 +26,7 @@ export default class Survey extends Base {
     finish: boolean;
 
     @ManyToMany(() => Role, (role: Role) => role.surveys)
-    roles: Role[];
+    roles: Promise<Role[]>;
 
     @OneToMany(type => SurveyRecord, surveyRecord => surveyRecord.survey, { cascade: true })
     surveyRecords: SurveyRecord[];
@@ -43,5 +43,5 @@ export default class Survey extends Base {
             referencedColumnName: 'id',
         },
     })
-    questions: Question[];
+    questions: Promise<Question[]>;
 }

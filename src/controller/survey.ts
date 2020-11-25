@@ -25,10 +25,17 @@ export class SurveyController {
         // const roles = await this.roleService.getRolesByUserId(user.id);
 
         //console.log(roles);
-        const surveys = [];
+        let surveys = [];
+        const questions = [];
         for (const role of user.roles) {
             // surveys.push(...(await this.surveyService.getSurveysByRoleId(role.id)));
-            surveys.push(...role.surveys);
+            const surveyArr = await role.surveys;
+            for (const survey of surveyArr) {
+                await survey.questions;
+            }
+
+            console.log(questions);
+            surveys = surveys.concat(await role.surveys);
         }
         return { ...request_success, data: { surveys } };
     }

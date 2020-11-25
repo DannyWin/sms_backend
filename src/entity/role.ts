@@ -31,7 +31,7 @@ export default class Role extends Base {
     })
     modules: Module[];
 
-    @ManyToMany(() => Survey, (survey: Survey) => survey.roles, { eager: true })
+    @ManyToMany(() => Survey, (survey: Survey) => survey.roles)
     @JoinTable({
         name: 'roleSurvey',
         joinColumn: {
@@ -43,7 +43,7 @@ export default class Role extends Base {
             referencedColumnName: 'id',
         },
     })
-    surveys: Survey[];
+    surveys: Promise<Survey[]>;
 
     @ManyToOne(type => Organization, organization => organization.roles)
     organization: Organization;

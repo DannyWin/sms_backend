@@ -27,7 +27,7 @@ export default class Question extends Base {
     answerRecords: AnswerRecord[];
 
     @ManyToMany(() => Survey, (survey: Survey) => survey.questions)
-    surveys: Survey[];
+    surveys: Promise<Survey[]>;
 
     @ManyToMany(() => Option, (option: Option) => option.questions)
     @JoinTable({
