@@ -5,4 +5,5 @@ import Survey from '../entity/survey';
  */
 export interface ISurveyService {
     getSurveysByRoleId(roleId: number): Promise<Survey[]>;
+    getSurveysByRoleIds(roleIds: number[]): Promise<Survey[]>;
 }

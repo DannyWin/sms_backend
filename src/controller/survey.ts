@@ -21,22 +21,9 @@ export class SurveyController {
     async getSurvey() {
         const uid = this.token.decodeToken.uid;
         const user = await this.userService.getUserByUid(uid);
-        console.log(user);
-        // const roles = await this.roleService.getRolesByUserId(user.id);
+        const roleIds = user.roles.map(role => role.id);
+        const surveys = await this.surveyService.getSurveysByRoleIds(roleIds);
 
-        //console.log(roles);
-        let surveys = [];
-        const questions = [];
-        for (const role of user.roles) {
-            // surveys.push(...(await this.surveyService.getSurveysByRoleId(role.id)));
-            const surveyArr = await role.surveys;
-            for (const survey of surveyArr) {
-                await survey.questions;
-            }
-
-            console.log(questions);
-            surveys = surveys.concat(await role.surveys);
-        }
         return { ...request_success, data: { surveys } };
     }
 }

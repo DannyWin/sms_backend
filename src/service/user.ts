@@ -34,7 +34,10 @@ export class UserService implements IUserService {
      * @memberof UserService
      */
     async getUserByUid(uid: string): Promise<User> {
-        return await this.userRepository.findOne({ relations: ['roles'], where: { uid: uid } });
+        return await this.userRepository.findOne({
+            relations: ['roles', 'roles.surveys', 'roles.surveys.questions'],
+            where: { uid: uid },
+        });
     }
     /**
      * 登录

@@ -2,6 +2,7 @@ import { Provide } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository } from 'typeorm';
 import Survey from '../entity/survey';
+import Question from '../entity/question';
 import RoleSurvey from '../entity/roleSurvey';
 import { ISurveyService } from '../interface/isurvey';
 
@@ -19,7 +20,7 @@ export class SurveyService implements ISurveyService {
      * @return Survey[]
      */
     async getSurveysByRoleId(roleId: number): Promise<Survey[]> {
-        // const roleSurveys = await this.roleSurveyRepository.find({ where: { roleId: roleId } });
+        // const roleSurveys = await this.roleSurveyRepositoryc
         // const surveys = [];
         // for (const rs of roleSurveys) {
         //     surveys.push(await this.surveyRepository.find({ where: { id: rs.surveyId } }));
@@ -38,5 +39,15 @@ export class SurveyService implements ISurveyService {
             .leftJoinAndSelect('surveyQuestion.question', 'question', 'question.id=surveyQuestion.questionId')
             .printSql()
             .getMany();
+    }
+
+    /**
+     * 通过roleIds获取问卷
+     *
+     * @param {number[]} roleIds
+     * @return Survey[]
+     */
+    async getSurveysByRoleIds(roleIds: number[]): Promise<Survey[]> {
+        return await this.surveyRepository.createQueryBuilder('survey').innerJoin('survey.roles', 'role', 'role.id in (:roleId)', { roleId: roleIds }).printSql().getMany();
     }
 }
