@@ -16,6 +16,14 @@ export class QuestionService implements IQuestionService {
      * @return Question[]
      */
     async getQuestionsBySurveyId(surveyId: number): Promise<Question[]> {
-        return await this.questionRepository.createQueryBuilder('question').leftJoin('question.surveys', 'survey', 'survey.id =:surveyId', { surveyId: surveyId }).printSql().getMany();
+        return await this.questionRepository
+            .createQueryBuilder('question')
+            .leftJoin('question.surveys', 'survey', 'survey.id =:surveyId', { surveyId: surveyId })
+            .leftJoinAndSelect('question.options', 'option', 'option.id =optionId')
+            .leftJoinAndSelect('question.sort', 'sort')
+            //.leftJoinAndMapOne('question.sortName', 'question.sort.name', 'sort')
+            .select(['question.id', 'question.content', 'option.id', 'option.content', 'sort.name'])
+            .printSql()
+            .getMany();
     }
 }

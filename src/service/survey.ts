@@ -2,7 +2,6 @@ import { Provide } from '@midwayjs/decorator';
 import { InjectEntityModel } from '@midwayjs/orm';
 import { Repository } from 'typeorm';
 import Survey from '../entity/survey';
-import Question from '../entity/question';
 import RoleSurvey from '../entity/roleSurvey';
 import { ISurveyService } from '../interface/isurvey';
 
