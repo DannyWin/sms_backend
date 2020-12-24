@@ -22,7 +22,7 @@ export class QuestionService implements IQuestionService {
             .leftJoinAndSelect('question.options', 'option', 'option.id =optionId')
             .leftJoinAndSelect('question.sort', 'sort')
             //.leftJoinAndMapOne('question.sortName', 'question.sort.name', 'sort')
-            .select(['question.id', 'question.content', 'option.id', 'option.content', 'sort.name'])
+            .select(['question.id', 'question.content', 'option.id', 'option.content', 'sort.id'])
             .printSql()
             .getMany();
     }
