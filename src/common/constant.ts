@@ -52,3 +52,7 @@ export const param_paramTypeError = {
     code: 'param_paramTypeError',
     msg: "One or more params' type are wrong",
 };
+export const unknown_error = {
+    code: 'unknown_error',
+    msg: 'unknown error',
+};
