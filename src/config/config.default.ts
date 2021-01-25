@@ -17,6 +17,7 @@ export default (appInfo: EggAppInfo) => {
         username: 'root',
         password: 'root',
         database: 'sms',
+        timezone: '+00:00',
         synchronize: true,
         logging: false,
         entities: [__dirname + '/entity/*.{ts,js}'],

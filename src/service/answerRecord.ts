@@ -27,19 +27,22 @@ export class AnswerRecordService implements IAnswerRecordService {
         for (const qa of answers) {
             // answers.forEach(async qa => {
             const correctAnswerId = await (await this.questionRepository.findOne(qa.qid, { relations: ['answer'] })).answer.id;
-            const dateRange = new AnswerDateRange();
-            dateRange.startDate = qa.startDate;
-            dateRange.endDate = qa.endDate;
-            await this.answerDateRangeRepository.save(dateRange);
             const record = new AnswerRecord();
-            record.answerDateRange = dateRange;
+            if (qa.startDate && qa.endDate) {
+                const dateRange = new AnswerDateRange();
+                dateRange.startDate = qa.startDate;
+                dateRange.endDate = qa.endDate;
+                await this.answerDateRangeRepository.save(dateRange);
+                record.answerDateRange = dateRange;
+            }
+
             await this.answerRecordRepository.save(record);
             count++;
-            try {
-                await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'question').of(record).set(qa.qid);
-                await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'answer').of(record).set(correctAnswerId);
-                await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'surveyRecord').of(record).set(surveyRecordId);
-            } catch (e) {}
+
+            await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'question').of(record).set(qa.qid);
+            await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'answer').of(record).set(correctAnswerId);
+            await this.answerRecordRepository.createQueryBuilder().relation(AnswerRecord, 'surveyRecord').of(record).set(surveyRecordId);
+
             // });
         }
         return count;

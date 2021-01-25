@@ -7,6 +7,7 @@ import { query_resourceNotFound, request_success, unknown_error } from '../commo
 import { IAnswerOptions } from '../interface/ianswer';
 import { ISurveyRecordService } from '../interface/isurveyRecord';
 import { IAnswerRecordService } from '../interface/ianswerRecord';
+import Survey from '../entity/survey';
 
 @Provide()
 @Controller('/')
@@ -40,17 +41,18 @@ export class SurveyController {
         const user = await this.userService.getUserByUid(uid);
         const roleIds = user.roles.map(role => role.id);
         const surveys = await this.surveyService.getSurveysByRoleIds(roleIds);
-        if (surveys.map(survey => survey.id).includes(parseInt(surveyId))) {
+        const survey = surveys.find(s => s.id === parseInt(surveyId)) as Survey;
+        const now = new Date();
+        if (survey && survey.startDate <= now && now <= survey.endDate) {
             const surveyRecord = await this.surveyRecordService.addSurveyRecord(user.id, parseInt(surveyId));
             if (surveyRecord) {
-                const count = await this.answerRecordService.addAnswerRecord(surveyRecord.id, body);
-                console.log(count);
+                await this.answerRecordService.addAnswerRecord(surveyRecord.id, body);
                 return { ...request_success };
             } else {
                 throw unknown_error;
             }
         } else {
-            throw query_resourceNotFound(`surveyId:${surveyId}`);
+            throw query_resourceNotFound(` surveyId:${surveyId} `);
         }
     }
 }
