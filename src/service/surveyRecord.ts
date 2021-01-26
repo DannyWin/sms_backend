@@ -50,4 +50,15 @@ export class SurveyRecordService implements ISurveyRecordService {
             .printSql()
             .getMany();
     }
+
+    async getSurveyRecordsCountByUserIdAndSurveyId(userId: number, surveyId: number): Promise<number> {
+        const result = await this.surveyRecordRepository
+            .createQueryBuilder('surveyRecord')
+            .innerJoinAndSelect('surveyRecord.user', 'user', 'user.id=:userId', { userId: userId })
+            .innerJoinAndSelect('surveyRecord.survey', 'survey', 'survey.id=:surveyId', { surveyId: surveyId })
+            .select('COUNT(*)', 'count')
+            .printSql()
+            .getRawOne();
+        return result.count;
+    }
 }

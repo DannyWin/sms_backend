@@ -8,6 +8,7 @@ import { IAnswerOptions } from '../interface/ianswer';
 import { ISurveyRecordService } from '../interface/isurveyRecord';
 import { IAnswerRecordService } from '../interface/ianswerRecord';
 import Survey from '../entity/survey';
+import SurveyDto from '../dto/surveyDto';
 
 @Provide()
 @Controller('/')
@@ -31,8 +32,18 @@ export class SurveyController {
         const user = await this.userService.getUserByUid(uid);
         const roleIds = user.roles.map(role => role.id);
         const surveys = await this.surveyService.getSurveysByRoleIds(roleIds);
-
-        return { ...request_success, data: { surveys } };
+        const surveyDtoes = [];
+        for (const survey of surveys) {
+            const surveyDto = new SurveyDto();
+            surveyDto.id = survey.id;
+            surveyDto.name = survey.name;
+            surveyDto.startDate = survey.startDate;
+            surveyDto.endDate = survey.endDate;
+            surveyDto.submitCount = await this.surveyRecordService.getSurveyRecordsCountByUserIdAndSurveyId(user.id, survey.id);
+            console.log(surveyDto.submitCount);
+            surveyDtoes.push(surveyDto);
+        }
+        return { ...request_success, data: { surveys: surveyDtoes } };
     }
 
     @Post('/survey/:surveyId/answer')

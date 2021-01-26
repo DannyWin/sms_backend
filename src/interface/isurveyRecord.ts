@@ -6,4 +6,5 @@ import SurveyRecord from '../entity/surveyRecord';
 export interface ISurveyRecordService {
     addSurveyRecord(userId: number, surveyId: number): Promise<SurveyRecord>;
     getSurveyRecordsByUserId(userId: number): Promise<SurveyRecord[]>;
+    getSurveyRecordsCountByUserIdAndSurveyId(userId: number, surveyId: number): Promise<number>;
 }

@@ -23,7 +23,7 @@ export default class Survey extends Base {
     endDate: Date;
 
     @Column({ nullable: true })
-    finish: boolean;
+    finished: boolean;
 
     @ManyToMany(() => Role, (role: Role) => role.surveys)
     roles: Promise<Role[]>;
