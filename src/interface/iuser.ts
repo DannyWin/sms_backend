@@ -1,3 +1,4 @@
+import { CreateApiPropertyDoc } from '@midwayjs/swagger';
 import User from '../entity/user';
 
 export interface IRegisterOptions {
@@ -8,8 +9,10 @@ export interface IRegisterOptions {
     userId?: string;
 }
 
-export interface ILoginOptions {
+export class ILoginOptions {
+    @CreateApiPropertyDoc('uid')
     uid: string;
+    @CreateApiPropertyDoc('pwd')
     pwd: string;
 }
 

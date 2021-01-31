@@ -11,7 +11,7 @@ export class AuthorizationMiddleware implements IWebMiddleware {
 
     resolve() {
         return async (ctx: Context, next: IMidwayWebNext) => {
-            if (!ctx.request.path.startsWith('/login')) {
+            if (!ctx.request.path.startsWith('/login') && !ctx.request.path.startsWith('/swagger-ui')) {
                 const bearerToken = ctx.request.header.authorization;
                 if (bearerToken) {
                     try {
